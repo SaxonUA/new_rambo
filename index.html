@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>RAMBO WIDGET</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>RAMBO WIDGET • ДВА БЛОКИ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Montserrat:wght@500;600;700;900&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -30,22 +30,32 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px 20px;
     }
 
-    .widget-container {
-      width: 680px;
+    /* Головний контейнер — вертикальне розташування двох блоків */
+    .double-widget {
+      width: 720px;
       max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Універсальний стиль для кожного блоку */
+    .widget-block {
       background: var(--bg-dark);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-glow);
       border-top: 4px solid var(--primary);
-      border-radius: 0 60px 0 60px;
-      padding: 28px 24px 32px;
-      box-shadow: 0 30px 55px rgba(0, 0, 0, 0.3);
+      border-radius: 0 48px 0 48px;
+      padding: 24px 22px 28px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
+      /* прибрано hover-ефект */
     }
 
-    .header {
+    /* Заголовок кожного блоку */
+    .block-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
@@ -56,27 +66,31 @@
       gap: 8px;
     }
 
-    .title {
+    .block-title {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
-      font-size: 28px;
+      font-size: 26px;
       color: var(--primary);
-      letter-spacing: 2.5px;
+      letter-spacing: 2px;
+      background: rgba(0,0,0,0.4);
+      padding: 0 8px 0 0;
     }
 
+    /* Таймер - збільшений в 2 рази */
     .timer-box {
       font-family: 'Orbitron', monospace;
       font-weight: 700;
-      font-size: 24px;
+      font-size: 48px;
       background: #00000066;
-      padding: 4px 12px;
+      padding: 8px 20px;
       border-radius: 40px;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       color: var(--accent-cyan);
       border: 1px solid rgba(0, 255, 204, 0.3);
+      line-height: 1.2;
     }
 
-    /* ЦЕНТРУВАННЯ */
+    /* Блок 1: основна секція damage (центрування) */
     .damage-section {
       text-align: center;
     }
@@ -120,13 +134,14 @@
       transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
+    /* Умови (список) */
     .conditions-list {
       display: flex;
       flex-direction: column;
       border: 1px solid rgba(255, 77, 0, 0.3);
       border-radius: 0 28px 0 28px;
       background: var(--card-bg);
-      margin: 0 0 24px 0;
+      margin: 0 0 0 0;
       overflow: hidden;
     }
 
@@ -144,7 +159,7 @@
 
     .cond-text {
       font-family: 'Montserrat', sans-serif;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 700;
       color: #ffffff;
       text-transform: uppercase;
@@ -153,17 +168,17 @@
 
     .cond-reward {
       font-family: 'Montserrat', sans-serif;
-      font-size: 26px;
+      font-size: 24px;
       color: var(--secondary);
       font-weight: 900;
     }
 
-    .extra-stats {
+    /* БЛОК 2: спеціальна сітка для статистики */
+    .stats-grid {
       display: flex;
       gap: 20px;
-      margin-top: 12px;
+      margin-top: 16px;
       flex-wrap: wrap;
-      justify-content: space-between;
     }
 
     .stat-card {
@@ -171,8 +186,9 @@
       background: rgba(0, 0, 0, 0.65);
       border-left: 3px solid var(--primary);
       border-radius: 0 18px 0 18px;
-      padding: 12px 16px;
+      padding: 14px 18px;
       backdrop-filter: blur(4px);
+      transition: all 0.1s;
     }
 
     .stat-label {
@@ -189,20 +205,14 @@
 
     .stat-number {
       font-family: 'Orbitron', monospace;
-      font-size: 32px;
+      font-size: 38px;
       font-weight: 900;
       color: var(--accent-cyan);
       line-height: 1.2;
       letter-spacing: 1px;
     }
 
-    .stat-sub {
-      font-size: 12px;
-      color: #888888;
-      margin-top: 6px;
-    }
-
-    /* ТІЛЬКИ АНІМАЦІЯ ЗМІН - БЕЗ ПІДСВІЧУВАННЯ В ЗВИЧАЙНОМУ СТАНІ */
+    /* Анімації змін — короткі спалахи без постійного підсвічування */
     .flash-up {
       animation: pulseGreen 0.28s ease-out;
     }
@@ -211,18 +221,18 @@
     }
 
     @keyframes pulseGreen {
-      0% { color: #ffffff; text-shadow: 0 0 0 transparent; }
+      0% { color: var(--accent-cyan); text-shadow: 0 0 0 transparent; }
       50% { color: #88ff88; text-shadow: 0 0 12px #00ff88; }
       100% { color: var(--accent-cyan); text-shadow: 0 0 0 transparent; }
     }
 
     @keyframes pulseRed {
-      0% { color: #ffffff; text-shadow: 0 0 0 transparent; }
+      0% { color: var(--accent-cyan); text-shadow: 0 0 0 transparent; }
       50% { color: #ff8888; text-shadow: 0 0 12px #ff4444; }
       100% { color: var(--accent-cyan); text-shadow: 0 0 0 transparent; }
     }
 
-    /* Анімація для основної цифри (без постійного підсвічування) */
+    /* Анімація для головної цифри (залишилось настріляти) */
     .val-up {
       animation: mainPulseGreen 0.28s ease-out;
     }
@@ -242,81 +252,100 @@
       100% { color: #ffffff; text-shadow: 0 0 0 transparent; }
     }
 
-    @media (max-width: 550px) {
-      .widget-container { padding: 18px; }
+    /* Адаптивність */
+    @media (max-width: 600px) {
+      .double-widget { gap: 20px; }
+      .widget-block { padding: 18px; }
       .damage-value { font-size: 68px; }
-      .stat-number { font-size: 24px; }
-      .cond-text { font-size: 12px; }
+      .stat-number { font-size: 28px; }
+      .cond-text { font-size: 13px; }
+      .cond-reward { font-size: 18px; }
+      .block-title { font-size: 20px; }
+      .timer-box { font-size: 32px; padding: 5px 14px; }
     }
   </style>
 </head>
 <body>
 
-<div class="widget-container">
-  <div class="header">
-    <div class="title">RAMBO</div>
-    <div id="timer" class="timer-box">00:00:00</div>
-  </div>
-
-  <!-- ЦЕНТРОВАНИЙ БЛОК -->
-  <div class="damage-section">
-    <div class="damage-label">💥 ЗАЛИШИЛОСЬ НАСТРІЛЯТИ 💥</div>
-    <div id="damage-display" class="damage-value">0</div>
-  </div>
-
-  <div class="progress-bar-container">
-    <div id="progress-fill" class="progress-fill"></div>
-  </div>
-
-  <div class="conditions-list">
-    <div class="condition-row">
-      <span class="cond-text">👍 1 ЛАЙК YOUTUBE</span>
-      <span class="cond-reward">+250 HP</span>
+<div class="double-widget">
+  
+  <!-- ========== БЛОК №1: ВСЕ ПРО ОСНОВНУ ЦІЛЬ ТА УМОВИ ========== -->
+  <div class="widget-block">
+    <div class="block-header">
+      <div class="block-title">RAMBO</div>
+      <!-- прибрано напис "⚡ МІСІЯ" -->
     </div>
-    <div class="condition-row">
-      <span class="cond-text">📱 4 ТАПИ TIKTOK</span>
-      <span class="cond-reward">+1 HP</span>
-    </div>
-    <div class="condition-row">
-      <span class="cond-text">💸 1 ГРИВНЯ DONAT</span>
-      <span class="cond-reward">+50 HP</span>
-    </div>
-  </div>
 
-  <div class="extra-stats">
-    <div class="stat-card">
-      <div class="stat-label">
-        🎯 ВЖЕ НАСТРІЛЯВ
+    <div class="damage-section">
+      <div class="damage-label">💥 ЗАЛИШИЛОСЬ НАСТРІЛЯТИ 💥</div>
+      <div id="damage-display" class="damage-value">0</div>
+    </div>
+
+    <div class="progress-bar-container">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+
+    <div class="conditions-list">
+      <div class="condition-row">
+        <span class="cond-text">👍 1 ЛАЙК YOUTUBE</span>
+        <span class="cond-reward">+250 HP</span>
       </div>
-      <div id="already-damage" class="stat-number">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">
-        👥 ДОДАЛИ ГЛЯДАЧІ
+      <div class="condition-row">
+        <span class="cond-text">📱 4 ТАПИ TIKTOK</span>
+        <span class="cond-reward">+1 HP</span>
       </div>
-      <div id="viewers-damage" class="stat-number">0</div>
+      <div class="condition-row">
+        <span class="cond-text">💸 1 ГРИВНЯ DONAT</span>
+        <span class="cond-reward">+50 HP</span>
+      </div>
     </div>
+  </div>
+
+  <!-- ========== БЛОК №2: ТАЙМЕР + НАСТРІЛЯВ + ДОДАЛИ ГЛЯДАЧІ ========== -->
+  <div class="widget-block">
+    <div class="block-header">
+      <div class="block-title">⏱️ СТАТИСТИКА</div>
+      <div id="timer" class="timer-box">00:00:00</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">
+          🎯 ВЖЕ НАСТРІЛЯВ
+        </div>
+        <div id="already-damage" class="stat-number">0</div>
+        <!-- прибрано підпис "стример + спільнота" -->
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">
+          👥 ДОДАЛИ ГЛЯДАЧІ
+        </div>
+        <div id="viewers-damage" class="stat-number">0</div>
+        <!-- прибрано підпис "активні учасники" -->
+      </div>
+    </div>
+    <!-- прибрано декоративний рядок #RAMBO_ENERGY -->
   </div>
 </div>
 
 <script>
-  // === КОНФІГУРАЦІЯ ТАБЛИЦІ GOOGLE SHEETS ===
+  // === КОНФІГУРАЦІЯ GOOGLE SHEETS ===
   const SHEET_ID = "17phnEn-NW-OnrZg4DcW65r-Xoq6ScsdVjS5yL0SS3fk";
   const GID = "1630188258";
-  const MAX_GOAL = 50000;        // ціль 50к HP
+  const MAX_GOAL = 50000;        // ціль 50к HP (для шкали)
   
   // Маппінг комірок:
   // C14 — Залишилось нанести (ОСНОВНА ВЕЛИКА ЦИФРА)
-  // C12 — Вже настріляв (стример)
+  // C12 — Вже настріляв (стример/спільнота)
   // C10 — Додали глядачі
   
-  let currentRemaining = 0;     // поточне значення для плавного лічильника (залишилось) - з C14
-  let targetRemaining = 0;       // справжнє значення з C14
+  let currentRemaining = 0;     // плавне значення "залишилось"
+  let targetRemaining = 0;       // реальне з C14
   
-  let currentStreamerDone = 0;   // "Вже настріляв" (C12)
+  let currentStreamerDone = 0;   // "Вже настріляв"
   let targetStreamerDone = 0;
   
-  let currentViewersDone = 0;    // "Додали глядачі" (C10)
+  let currentViewersDone = 0;    // "Додали глядачі"
   let targetViewersDone = 0;
   
   // DOM елементи
@@ -325,56 +354,73 @@
   const alreadyDamageSpan = document.getElementById('already-damage');
   const viewersDamageSpan = document.getElementById('viewers-damage');
   
-  // функція отримання даних з таблиці: зчитує C10, C12, C14
+  // Функція отримання даних з Google Sheets (C10, C12, C14)
   async function fetchSheetData() {
     try {
-      // Запитуємо діапазон C10:C14 (5 комірок)
+      // Запитуємо діапазон C10:C14 (5 комірок, але нам потрібні лише C10, C12, C14)
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${GID}&range=C10:C14&tqx=out:json`;
       const response = await fetch(url);
       const text = await response.text();
       const jsonData = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
       
-const rows = jsonData.table.rows || [];
-
-let viewersVal = 0;
-let streamerVal = 0;
-let remainingVal = 0;
-
-if (rows[0] && rows[0].c && rows[0].c[0] && rows[0].c[0].v !== undefined) {
-  viewersVal = parseInt(rows[0].c[0].v) || 0;   // C10
-}
-
-if (rows[1] && rows[1].c && rows[1].c[0] && rows[1].c[0].v !== undefined) {
-  streamerVal = parseInt(rows[1].c[0].v) || 0;  // C12
-}
-
-if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
-  remainingVal = parseInt(rows[2].c[0].v) || 0; // C14
-}
+      const rows = jsonData.table.rows || [];
+      
+      let viewersVal = 0;
+      let streamerVal = 0;
+      let remainingVal = 0;
+      
+      // C10 — індекс 0
+      if (rows[0] && rows[0].c && rows[0].c[0] && rows[0].c[0].v !== undefined) {
+        viewersVal = parseInt(rows[0].c[0].v) || 0;
+      }
+      // C12 — індекс 1 (друга комірка в діапазоні)
+      if (rows[1] && rows[1].c && rows[1].c[0] && rows[1].c[0].v !== undefined) {
+        streamerVal = parseInt(rows[1].c[0].v) || 0;
+      }
+      // C14 — індекс 2 (третя комірка)
+      if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
+        remainingVal = parseInt(rows[2].c[0].v) || 0;
+      }
       
       // Оновлюємо цільові значення
       targetViewersDone = viewersVal;
       targetStreamerDone = streamerVal;
       targetRemaining = remainingVal;
       
-      // Корекція для основної цифри (залишилось)
+      // Корекція для залишку: не менше 0, не більше MAX_GOAL
       if (targetRemaining < 0) targetRemaining = 0;
       if (targetRemaining > MAX_GOAL) targetRemaining = MAX_GOAL;
       
-      console.log(`Отримано дані: C10(глядачі)=${targetViewersDone}, C12(настріляв)=${targetStreamerDone}, C14(залишилось)=${targetRemaining}`);
+      console.log(`📊 Оновлення: C10(глядачі)=${targetViewersDone}, C12(настріляв)=${targetStreamerDone}, C14(залишилось)=${targetRemaining}`);
       
     } catch (error) {
-      console.error("Помилка отримання даних з Google Sheets:", error);
+      console.error("❌ Помилка отримання даних з Google Sheets:", error);
     }
   }
   
-  // Плавне оновлення для трьох лічильників
+  // Універсальна анімація для числових полів stat-card
+  function animateStatFlash(element, direction) {
+    if (!element) return;
+    element.classList.remove('flash-up', 'flash-down');
+    // примусовий reflow
+    void element.offsetWidth;
+    if (direction === 'up') {
+      element.classList.add('flash-up');
+    } else {
+      element.classList.add('flash-down');
+    }
+    setTimeout(() => {
+      if (element) {
+        element.classList.remove('flash-up', 'flash-down');
+      }
+    }, 280);
+  }
+  
+  // Плавне оновлення всіх лічильників (requestAnimationFrame loop)
   function updateSmoothCounters() {
-    let needContinue = true;
-    
-    // 1) Основний лічильник "Залишилось нанести" (з C14) - ВЕЛИКА ЦИФРА
+    // 1) Основний лічильник "Залишилось настріляти" (велика цифра)
     if (Math.abs(currentRemaining - targetRemaining) > 0.5) {
-      let stepRem = 3.4;  // плавність
+      let stepRem = 3.6;
       if (currentRemaining < targetRemaining) {
         currentRemaining += stepRem;
         if (currentRemaining > targetRemaining) currentRemaining = targetRemaining;
@@ -392,7 +438,7 @@ if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
       if (percent > 100) percent = 100;
       progressFill.style.width = percent + "%";
     } else {
-      // синхронізуємо фінальне значення
+      // синхронізація фінального значення
       if (currentRemaining !== targetRemaining) {
         currentRemaining = targetRemaining;
         damageDisplay.innerText = Math.floor(currentRemaining).toLocaleString();
@@ -404,9 +450,9 @@ if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
       }
     }
     
-    // 2) Поле "Вже настріляв" (C12)
+    // 2) Поле "Вже настріляв"
     if (Math.abs(currentStreamerDone - targetStreamerDone) > 0.2) {
-      let stepStr = 4.2;
+      let stepStr = 4.5;
       if (currentStreamerDone < targetStreamerDone) {
         currentStreamerDone += stepStr;
         if (currentStreamerDone > targetStreamerDone) currentStreamerDone = targetStreamerDone;
@@ -424,9 +470,9 @@ if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
       }
     }
     
-    // 3) Поле "Додали глядачі" (C10)
+    // 3) Поле "Додали глядачі"
     if (Math.abs(currentViewersDone - targetViewersDone) > 0.2) {
-      let stepView = 4.2;
+      let stepView = 4.5;
       if (currentViewersDone < targetViewersDone) {
         currentViewersDone += stepView;
         if (currentViewersDone > targetViewersDone) currentViewersDone = targetViewersDone;
@@ -444,29 +490,11 @@ if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
       }
     }
     
-    if (needContinue) {
-      requestAnimationFrame(updateSmoothCounters);
-    }
+    // продовжуємо цикл анімації
+    requestAnimationFrame(updateSmoothCounters);
   }
   
-  // анімація для stat-card цифр
-  function animateStatFlash(element, direction) {
-    if (!element) return;
-    element.classList.remove('flash-up', 'flash-down');
-    void element.offsetWidth;
-    if (direction === 'up') {
-      element.classList.add('flash-up');
-    } else {
-      element.classList.add('flash-down');
-    }
-    setTimeout(() => {
-      if (element) {
-        element.classList.remove('flash-up', 'flash-down');
-      }
-    }, 280);
-  }
-  
-  // Таймер до 23:59 Київ
+  // Таймер до 23:59 за Києвом
   function updateTimerKyiv() {
     const now = new Date();
     const kyivTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Kyiv' }));
@@ -478,39 +506,44 @@ if (rows[2] && rows[2].c && rows[2].c[0] && rows[2].c[0].v !== undefined) {
     const hours = Math.floor(diffMs / 3600000).toString().padStart(2, '0');
     const minutes = Math.floor((diffMs % 3600000) / 60000).toString().padStart(2, '0');
     const seconds = Math.floor((diffMs % 60000) / 1000).toString().padStart(2, '0');
-    document.getElementById('timer').innerText = `${hours}:${minutes}:${seconds}`;
+    const timerEl = document.getElementById('timer');
+    if (timerEl) timerEl.innerText = `${hours}:${minutes}:${seconds}`;
   }
   
-  // Синхронізація з таблицею
+  // Синхронізація з таблицею (оновлення target-значень)
   async function syncWithSheet() {
     await fetchSheetData();
   }
   
-  // Ініціалізація
+  // Ініціалізація всього віджету
   async function init() {
+    // Перше завантаження даних
     await fetchSheetData();
     
-    // встановлюємо поточні значення рівними цільовим для старту
+    // Встановлюємо поточні значення рівними цільовим для старту
     currentRemaining = targetRemaining;
     currentStreamerDone = targetStreamerDone;
     currentViewersDone = targetViewersDone;
     
+    // Відображаємо стартові значення
     damageDisplay.innerText = Math.floor(currentRemaining).toLocaleString();
     let startPercent = (currentRemaining / MAX_GOAL) * 100;
     progressFill.style.width = Math.min(100, Math.max(0, startPercent)) + "%";
     alreadyDamageSpan.innerText = Math.floor(currentStreamerDone).toLocaleString();
     viewersDamageSpan.innerText = Math.floor(currentViewersDone).toLocaleString();
     
-    // запускаємо плавне оновлення
+    // Запускаємо плавне оновлення (loop)
     requestAnimationFrame(updateSmoothCounters);
-    // таймер
+    
+    // Таймер зворотного відліку до кінця дня
     updateTimerKyiv();
     setInterval(updateTimerKyiv, 1000);
-    // оновлення даних кожні 5 секунд
+    
+    // Автоматичне оновлення даних з Google Sheets кожні 5 секунд
     setInterval(syncWithSheet, 5000);
   }
   
-  // Запуск після завантаження DOM
+  // Старт після повного завантаження DOM
   window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
