@@ -9,7 +9,8 @@
     :root {
       --primary: #ff4d00;
       --secondary: #ffae00;
-      --bg-dark: rgba(10, 10, 12, 0.95);
+      /* Чорний напівпрозорий фон */
+      --bg-dark: rgba(0, 0, 0, 0.85); 
     }
 
     body {
@@ -25,13 +26,16 @@
     .widget-container {
       width: 600px;
       background: var(--bg-dark);
-      border: 1px solid rgba(255, 77, 0, 0.2);
+      border: 1px solid rgba(255, 77, 0, 0.3);
       border-top: 4px solid var(--primary);
-      border-radius: 15px;
-      padding: 25px; /* Трохи зменшив загальний падінг */
+      
+      /* ДІАГОНАЛЬНІ КУТИ: гострі зверху-зліва та знизу-справа, овальні в інших */
+      border-radius: 0 50px 0 50px; 
+      
+      padding: 25px;
       position: relative;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.9);
       text-align: center;
     }
 
@@ -94,22 +98,23 @@
       transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* КОМПАКТНИЙ НИЖНІЙ БЛОК */
     .conditions-list {
       display: flex;
       flex-direction: column;
       border: 1px solid rgba(255, 77, 0, 0.2);
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.4);
-      width: 95%; /* Трохи вужче для компактності */
+      /* Кути списку також підлаштовані під стиль контейнера */
+      border-radius: 0 25px 0 25px; 
+      background: rgba(0, 0, 0, 0.6);
+      width: 95%;
       margin: 0 auto;
+      overflow: hidden;
     }
 
     .condition-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 20px; /* Суттєво зменшено відступи */
+      padding: 10px 20px;
       border-bottom: 1px solid rgba(255, 77, 0, 0.1);
     }
 
@@ -117,7 +122,7 @@
 
     .cond-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 15px; /* Компактніший шрифт */
+      font-size: 15px; 
       font-weight: 700;
       color: #ccc;
       text-transform: uppercase;
@@ -126,7 +131,7 @@
 
     .cond-reward {
       font-family: 'Orbitron', sans-serif;
-      font-size: 18px; /* Компактніший шрифт */
+      font-size: 18px; 
       color: var(--secondary);
       font-weight: 900;
       text-shadow: 0 0 8px rgba(255, 174, 0, 0.3);
