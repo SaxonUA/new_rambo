@@ -26,10 +26,10 @@
       padding: 20px;
     }
 
-    /* ГОЛОВНИЙ КОНТЕЙНЕР — ПОСИЛЕНИЙ ФОН ТА ЗАХИСТ ВІД ФОНУ ГРИ */
+    /* ГОЛОВНИЙ КОНТЕЙНЕР */
     .widget {
-      width: 480px;
-      background: rgba(0, 0, 0, 0.75);
+      width: 500px;
+      background: rgba(0, 0, 0, 0.78);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 32px;
@@ -38,34 +38,24 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 100, 50, 0.2) inset, 0 0 20px rgba(255, 80, 40, 0.3);
     }
 
-    /* ГОЛОВНЕ ЧИСЛО — ЗБІЛЬШЕНЕ, З ПОТУЖНОЮ ТІННЮ */
+    /* ГОЛОВНЕ ЧИСЛО */
     .main-number {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
     .main-value {
-      font-size: 96px;
+      font-size: 100px;
       font-weight: 900;
       color: #ffffff;
       line-height: 1;
       letter-spacing: 4px;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      text-shadow: 0 0 30px rgba(255, 80, 40, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5);
-      background: linear-gradient(135deg, #ffffff, #ffeedd);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: none;
-    }
-    /* Альтернативний варіант — якщо градієнт не підходить, основний білий із тінню */
-    .main-value {
-      color: #ffffff;
-      text-shadow: 0 0 20px rgba(255, 100, 50, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 25px rgba(255, 100, 50, 0.7), 0 2px 4px rgba(0, 0, 0, 0.5);
     }
     .main-label {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 30px;
+      font-weight: 800;
       letter-spacing: 6px;
       color: #ffaa66;
       text-transform: uppercase;
@@ -73,7 +63,7 @@
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    /* ПРОГРЕС-БАР — ПОТОВЩЕНИЙ ТА ЯСКРАВІШИЙ */
+    /* ПРОГРЕС-БАР */
     .progress {
       margin-bottom: 28px;
     }
@@ -93,7 +83,7 @@
       transition: width 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
     }
 
-    /* ДВІ СТАТИСТИКИ — БІЛЬШІ, КОНТРАСТНІШІ */
+    /* ДВІ СТАТИСТИКИ */
     .stats-row {
       display: flex;
       gap: 16px;
@@ -107,10 +97,9 @@
       padding: 16px 12px;
       text-align: center;
       border: 1px solid rgba(255, 100, 50, 0.3);
-      transition: transform 0.1s ease;
     }
     .stat-value {
-      font-size: 42px;
+      font-size: 44px;
       font-weight: 800;
       color: #00e5ff;
       word-wrap: break-word;
@@ -119,50 +108,49 @@
       letter-spacing: 1px;
     }
     .stat-label {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       letter-spacing: 2.5px;
       color: #ffaa77;
       text-transform: uppercase;
-      margin-top: 8px;
+      margin-top: 10px;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    /* УМОВИ — ЧИТАБЕЛЬНІ, КОМФОРТНІ, З БІЛЬШИМИ ЦИФРАМИ */
+    /* УМОВИ */
     .conditions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .cond {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(4px);
-      padding: 12px 20px;
+      padding: 14px 22px;
       border-radius: 60px;
-      border: 1px solid rgba(255, 100, 50, 0.25);
-      transition: all 0.1s ease;
+      border: 1px solid rgba(255, 100, 50, 0.3);
     }
     .cond-text {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 25px;
+      font-weight: 700;
       color: #ffcc99;
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
     .cond-value {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
       color: #ffaa44;
-      text-shadow: 0 0 6px rgba(255, 170, 68, 0.5);
-      background: rgba(0, 0, 0, 0.3);
-      padding: 4px 12px;
+      text-shadow: 0 0 8px rgba(255, 170, 68, 0.5);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 5px 14px;
       border-radius: 40px;
     }
 
-    /* АНІМАЦІЇ — ПОКРАЩЕНІ, З БІЛЬШИМ ЕФЕКТОМ */
+    /* АНІМАЦІЇ */
     .flash-up {
       animation: upFlash 0.25s ease-out;
     }
@@ -196,27 +184,31 @@
       100% { color: #ffffff; text-shadow: 0 0 20px rgba(255, 100, 50, 0.6); transform: scale(1); }
     }
 
-    /* АДАПТАЦІЯ ДЛЯ МАЛЕНЬКИХ РОЗМІРІВ */
-    @media (max-width: 520px) {
+    /* АДАПТАЦІЯ */
+    @media (max-width: 540px) {
       .widget {
-        width: 400px;
+        width: 420px;
         padding: 20px 16px;
       }
       .main-value {
         font-size: 72px;
       }
       .stat-value {
-        font-size: 32px;
+        font-size: 34px;
+      }
+      .stat-label {
+        font-size: 11px;
+        letter-spacing: 2px;
       }
       .cond-text {
-        font-size: 12px;
+        font-size: 13px;
       }
       .cond-value {
-        font-size: 16px;
-        padding: 3px 10px;
+        font-size: 18px;
+        padding: 4px 10px;
       }
       .main-label {
-        font-size: 11px;
+        font-size: 12px;
         letter-spacing: 4px;
       }
     }
@@ -226,24 +218,21 @@
 
 <div class="widget">
   
-  <!-- ГОЛОВНЕ ЧИСЛО -->
   <div class="main-number">
     <div class="main-value" id="main">0</div>
     <div class="main-label">ЗАЛИШИЛОСЬ</div>
   </div>
 
-  <!-- ПРОГРЕС -->
   <div class="progress">
     <div class="progress-bar">
       <div class="progress-fill" id="progress"></div>
     </div>
   </div>
 
-  <!-- ДВІ СТАТИСТИКИ -->
   <div class="stats-row">
     <div class="stat">
       <div class="stat-value" id="streamer">0</div>
-      <div class="stat-label">НАСТРІЛЯВ</div>
+      <div class="stat-label">НАСТРІЛЯЛИ</div>
     </div>
     <div class="stat">
       <div class="stat-value" id="viewers">0</div>
@@ -251,14 +240,13 @@
     </div>
   </div>
 
-  <!-- УМОВИ -->
   <div class="conditions">
     <div class="cond">
-      <span class="cond-text">👍 ЛАЙК YOUTUBE</span>
+      <span class="cond-text">👍 1 ЛАЙК YOUTUBE</span>
       <span class="cond-value">+500</span>
     </div>
     <div class="cond">
-      <span class="cond-text">📱 ТАП TIKTOK</span>
+      <span class="cond-text">📱 2 ТАПИ TIKTOK</span>
       <span class="cond-value">+1</span>
     </div>
     <div class="cond">
