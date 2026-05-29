@@ -290,6 +290,32 @@
       align-items: center;
     }
 
+    .timer-block.expired .timer-flip {
+      display: none;
+    }
+
+    .timer-expired {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      min-height: 94px;
+      background: rgba(0,0,0,.15);
+      border: 2px solid var(--brand);
+      border-radius: 12px;
+      padding: 18px 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 46px;
+      font-weight: 700;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .timer-block.expired .timer-expired {
+      display: flex;
+    }
+
     .timer-flip .flip-clock-wrapper {
       background: rgba(0,0,0,.15);
       border: 2px solid var(--brand);
@@ -410,12 +436,14 @@
 
   </div>
 
-  <div class="timer-block">
+  <div class="timer-block" id="timerBlock">
     <div class="timer-label">⏱️ ДО КІНЦЯ ЧЕЛЕНДЖУ</div>
 
     <div class="timer-flip">
       <div id="flip-clock"></div>
     </div>
+
+    <div class="timer-expired" id="timerExpired">ЧАС ВИЙШОВ</div>
   </div>
 
 </div>
@@ -447,6 +475,7 @@
   const mainBoard = document.getElementById('mainBoard');
   const streamerEl = document.getElementById('streamer');
   const viewersEl = document.getElementById('viewers');
+  const timerBlockEl = document.getElementById('timerBlock');
 
   async function fetchData() {
     try {
@@ -670,18 +699,42 @@
     return seconds;
   }
 
+  function setTimerExpired() {
+    if (timerBlockEl) {
+      timerBlockEl.classList.add('expired');
+    }
+
+    if (flipTimerClock && typeof flipTimerClock.stop === 'function') {
+      flipTimerClock.stop();
+    }
+  }
+
   function initFlipTimer() {
-    flipTimerClock = $('#flip-clock').FlipClock(getTimeLeftKyiv(), {
+    const startSeconds = getTimeLeftKyiv();
+
+    if (startSeconds <= 0) {
+      setTimerExpired();
+      return;
+    }
+
+    flipTimerClock = $('#flip-clock').FlipClock(startSeconds, {
       clockFace: 'HourlyCounter',
       countdown: true,
       autoStart: true
     });
 
     setInterval(() => {
-      if (flipTimerClock) {
-        flipTimerClock.setTime(getTimeLeftKyiv());
+      const left = getTimeLeftKyiv();
+
+      if (left <= 0) {
+        setTimerExpired();
+        return;
       }
-    }, 60000);
+
+      if (flipTimerClock) {
+        flipTimerClock.setTime(left);
+      }
+    }, 1000);
   }
 
   async function init() {
