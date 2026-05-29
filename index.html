@@ -16,9 +16,10 @@
       --txt: #fff;
       --shadow: rgba(0,0,0,.65);
       --stat-streamer: #bcbcbc;
-      --stat-viewers: #bcbcbc;
+      --stat-viewers: #dba9f7;
       --orange-soft: #ffb26b;
       --timer-dots: #bcbcbc;
+      --panel-bg: rgba(58, 58, 58, 0.65);
     }
 
     * {
@@ -49,7 +50,7 @@
 
     .widget {
       width: 560px;
-      background: rgba(58, 58, 58, 0.96);
+      background: var(--panel-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 28px;
@@ -262,11 +263,9 @@
       text-shadow: none;
     }
 
-    /* ========== ТАЙМЕР FLIPCLOCK ========== */
-
     .timer-block {
       width: 560px;
-      background: rgba(58, 58, 58, 0.96);
+      background: var(--panel-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 28px;
