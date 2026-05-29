@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.css" />
 
   <style>
     :root {
@@ -16,7 +15,7 @@
       --txt: #fff;
       --shadow: rgba(0,0,0,.65);
       --stat-streamer: #bcbcbc;
-      --stat-viewers: #FF7819;
+      --stat-viewers: #ff6900;
       --orange-soft: #ffb26b;
       --timer-dots: #bcbcbc;
       --panel-bg: rgba(0, 0, 0, 0.50);
@@ -174,11 +173,11 @@
     }
 
     .flip-digit.play .flip-top {
-      animation: flipTop 0.18s linear forwards;
+      animation: flipTop 0.12s linear forwards;
     }
 
     .flip-digit.play .flip-bottom {
-      animation: flipBottom 0.18s linear 0.18s forwards;
+      animation: flipBottom 0.12s linear 0.18s forwards;
     }
 
     @keyframes flipTop {
@@ -316,57 +315,45 @@
       display: flex;
     }
 
-    .timer-flip .flip-clock-wrapper {
+    /* ========== ТАЙМЕР ЯК ВЕРХНЄ FLIP-ЧИСЛО ========== */
+
+    .timer-flip-board {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       background: rgba(0,0,0,.15);
       border: 2px solid var(--brand);
       border-radius: 12px;
-      display: inline-block;
-      width: fit-content;
-      margin: 0 auto;
-      padding: 7px 8px 0;
+      padding: 7px 12px;
+      overflow: visible;
     }
 
-    .timer-flip .flip-clock-wrapper ul {
-      width: 52px;
-      height: 74px;
-      margin: 3px;
+    .timer-flip-board .flip-digit {
+      width: 58px;
+      height: 82px;
+      perspective: 390px;
       border-radius: 8px;
-      background: #111;
-      box-shadow: 0 3px 7px rgba(0,0,0,.6);
     }
 
-    .timer-flip .flip-clock-wrapper ul li {
-      line-height: 74px;
-    }
-
-    .timer-flip .flip-clock-wrapper ul li a div {
+    .timer-flip-board .digit-num {
+      height: 82px;
+      line-height: 82px;
       font-size: 74px;
     }
 
-    .timer-flip .flip-clock-wrapper ul li a div div.inn {
+    .timer-separator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 82px;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 74px;
-      font-weight: 700;
-      color: #ddd;
-      background-color: #333;
-      text-shadow: none;
-    }
-
-    .timer-flip .flip-clock-divider {
-      width: 18px;
-      height: 84px;
-    }
-
-    .timer-flip .flip-clock-dot {
-      width: 8px;
-      height: 8px;
-      left: 5px;
-      background: var(--timer-dots);
-      box-shadow: none;
-    }
-
-    .timer-flip .flip-clock-divider .flip-clock-label {
-      display: none;
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--timer-dots);
+      line-height: 1;
+      transform: translateY(-2px);
     }
 
     .flash-up {
@@ -440,16 +427,13 @@
     <div class="timer-label">⏱️ ДО КІНЦЯ ЧЕЛЕНДЖУ</div>
 
     <div class="timer-flip">
-      <div id="flip-clock"></div>
+      <div class="timer-flip-board" id="timerBoard"></div>
     </div>
 
     <div class="timer-expired" id="timerExpired">ЧАС ВИЙШОВ</div>
   </div>
 
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
 
 <script>
   const SHEET_ID = "17phnEn-NW-OnrZg4DcW65r-Xoq6ScsdVjS5yL0SS3fk";
@@ -470,9 +454,14 @@
   let boardDigits = [];
   let damageInterval = null;
   let inProgress = false;
-  let flipTimerClock = null;
+
+  let currentTimerString = "";
+  let timerDigits = [];
+  let timerTick = null;
+  let timerIsExpired = false;
 
   const mainBoard = document.getElementById('mainBoard');
+  const timerBoard = document.getElementById('timerBoard');
   const streamerEl = document.getElementById('streamer');
   const viewersEl = document.getElementById('viewers');
   const timerBlockEl = document.getElementById('timerBlock');
@@ -525,23 +514,6 @@
     `;
   }
 
-  function buildBoard(value) {
-    const str = String(Math.max(0, Math.floor(value)));
-    mainBoard.innerHTML = "";
-    boardDigits = [];
-
-    for (const ch of str) {
-      const el = document.createElement("div");
-      el.className = "flip-digit";
-      el.dataset.value = ch;
-      el.innerHTML = makeDigitHTML(ch);
-      mainBoard.appendChild(el);
-      boardDigits.push(el);
-    }
-
-    currentBoardString = str;
-  }
-
   function setDigitText(digitEl, selector, value) {
     const node = digitEl.querySelector(selector);
     if (node) node.textContent = value;
@@ -566,14 +538,31 @@
       setDigitText(digitEl, ".flip-bottom .digit-num", newValue);
       digitEl.dataset.value = newValue;
       digitEl.classList.remove("play");
-    }, 390);
+    }, 240);
   }
 
-  function updateBoard(value, animate = true) {
+  function buildMainBoard(value) {
+    const str = String(Math.max(0, Math.floor(value)));
+    mainBoard.innerHTML = "";
+    boardDigits = [];
+
+    for (const ch of str) {
+      const el = document.createElement("div");
+      el.className = "flip-digit";
+      el.dataset.value = ch;
+      el.innerHTML = makeDigitHTML(ch);
+      mainBoard.appendChild(el);
+      boardDigits.push(el);
+    }
+
+    currentBoardString = str;
+  }
+
+  function updateMainBoard(value, animate = true) {
     const nextStr = String(Math.max(0, Math.floor(value)));
 
     if (!currentBoardString || nextStr.length !== currentBoardString.length) {
-      buildBoard(value);
+      buildMainBoard(value);
       return;
     }
 
@@ -599,6 +588,61 @@
     currentBoardString = nextStr;
   }
 
+  function buildTimerBoard(str) {
+    timerBoard.innerHTML = "";
+    timerDigits = [];
+    currentTimerString = str;
+
+    for (let i = 0; i < str.length; i++) {
+      const ch = str[i];
+
+      if (ch === ":") {
+        const sep = document.createElement("div");
+        sep.className = "timer-separator";
+        sep.textContent = ":";
+        timerBoard.appendChild(sep);
+        continue;
+      }
+
+      const el = document.createElement("div");
+      el.className = "flip-digit";
+      el.dataset.value = ch;
+      el.innerHTML = makeDigitHTML(ch);
+      timerBoard.appendChild(el);
+
+      timerDigits.push({
+        index: i,
+        el: el
+      });
+    }
+  }
+
+  function updateTimerBoard(str, animate = true) {
+    if (!currentTimerString || str.length !== currentTimerString.length) {
+      buildTimerBoard(str);
+      return;
+    }
+
+    for (const item of timerDigits) {
+      const oldValue = currentTimerString[item.index];
+      const newValue = str[item.index];
+
+      if (oldValue === newValue) continue;
+
+      if (animate) {
+        flipDigit(item.el, oldValue, newValue);
+      } else {
+        setDigitText(item.el, ".static-top .digit-num", newValue);
+        setDigitText(item.el, ".static-bottom .digit-num", newValue);
+        setDigitText(item.el, ".flip-top .digit-num", newValue);
+        setDigitText(item.el, ".flip-bottom .digit-num", newValue);
+        item.el.dataset.value = newValue;
+      }
+    }
+
+    currentTimerString = str;
+  }
+
   function animateDamage(newValue) {
     if (inProgress) {
       clearInterval(damageInterval);
@@ -622,7 +666,7 @@
       if (direction > 0 && currentDamage > newValue) currentDamage = newValue;
       if (direction < 0 && currentDamage < newValue) currentDamage = newValue;
 
-      updateBoard(currentDamage, true);
+      updateMainBoard(currentDamage, true);
 
       if (currentDamage === newValue) {
         clearInterval(damageInterval);
@@ -699,13 +743,25 @@
     return seconds;
   }
 
+  function formatTimer(seconds) {
+    const hours = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}:${secs}`;
+  }
+
   function setTimerExpired() {
-    if (timerBlockEl) {
-      timerBlockEl.classList.add('expired');
+    if (timerIsExpired) return;
+
+    timerIsExpired = true;
+
+    if (timerTick) {
+      clearInterval(timerTick);
+      timerTick = null;
     }
 
-    if (flipTimerClock && typeof flipTimerClock.stop === 'function') {
-      flipTimerClock.stop();
+    if (timerBlockEl) {
+      timerBlockEl.classList.add('expired');
     }
   }
 
@@ -713,27 +769,23 @@
     const startSeconds = getTimeLeftKyiv();
 
     if (startSeconds <= 0) {
+      buildTimerBoard("00:00:00");
       setTimerExpired();
       return;
     }
 
-    flipTimerClock = $('#flip-clock').FlipClock(startSeconds, {
-      clockFace: 'HourlyCounter',
-      countdown: true,
-      autoStart: true
-    });
+    buildTimerBoard(formatTimer(startSeconds));
 
-    setInterval(() => {
+    timerTick = setInterval(() => {
       const left = getTimeLeftKyiv();
 
       if (left <= 0) {
-        setTimerExpired();
+        updateTimerBoard("00:00:00", true);
+        setTimeout(setTimerExpired, 420);
         return;
       }
 
-      if (flipTimerClock) {
-        flipTimerClock.setTime(left);
-      }
+      updateTimerBoard(formatTimer(left), true);
     }, 1000);
   }
 
@@ -744,7 +796,7 @@
     curStreamer = targetStreamer;
     curViewers = targetViewers;
 
-    buildBoard(currentDamage);
+    buildMainBoard(currentDamage);
 
     streamerEl.innerText = Math.floor(curStreamer).toLocaleString();
     viewersEl.innerText = Math.floor(curViewers).toLocaleString();
